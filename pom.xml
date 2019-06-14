@@ -41,7 +41,7 @@
 		</repository>
 	</repositories>
 
-	<dependencyManagement>
+<!-- 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.vaadin</groupId>
@@ -51,7 +51,14 @@
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>
+	</dependencyManagement> -->
+	
+	<distributionManagement>
+	    <snapshotRepository>
+	      <id>nexus-snapshots</id>
+	      <url>http://192.168.30.159:8081/repository/maven-snapshots/</url>
+	    </snapshotRepository>
+  	</distributionManagement>
 
 	<dependencies>
 		<dependency>
