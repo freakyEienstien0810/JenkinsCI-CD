@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'IMAGE - %IMAGE% and Version - %VERSION%'
+                echo 'IMAGE - ${IMAGE} and Version - ${VERSION}'
                 //bat "mvn clean package"
             }
         }
