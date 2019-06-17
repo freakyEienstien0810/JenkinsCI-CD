@@ -17,6 +17,8 @@ pipeline {
                 script {
                       def pom = readMavenPom file: 'pom.xml'
                       echo "${pom}"
+                      echo "${IMAGE}"
+                      echo "${VERSION}"
                 }
               
                 //bat "mvn clean package"
