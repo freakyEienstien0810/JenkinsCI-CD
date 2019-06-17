@@ -14,8 +14,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                def pom = readMavenPom file: 'pom.xml'
-                echo "${pom}"
+                script {
+                      def pom = readMavenPom file: 'pom.xml'
+                      echo "${pom}"
+                }
+              
                 //bat "mvn clean package"
             }
         }
