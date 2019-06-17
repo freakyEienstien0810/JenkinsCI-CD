@@ -26,12 +26,6 @@
 
 	<repositories>
 		<repository>
-		  <id>central</id>
-		  <url>http://192.168.30.159:8081/nexus/maven-central/</url>
-		  <releases><enabled>true</enabled></releases>
-		  <snapshots><enabled>true</enabled></snapshots>
-		</repository>
-<!-- 		<repository>
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
@@ -44,7 +38,7 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-		</repository> -->
+		</repository>
 	</repositories>
 
 	<dependencyManagement>
@@ -58,13 +52,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-	<distributionManagement>
-	    <snapshotRepository>
-	      <id>nexus-snapshots</id>
-	      <url>http://192.168.30.159:8081/repository/maven-snapshots/</url>
-	    </snapshotRepository>
-  	</distributionManagement>
 
 	<dependencies>
 		<dependency>
