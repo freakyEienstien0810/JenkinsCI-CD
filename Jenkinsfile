@@ -14,8 +14,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                def test = $IMAGE-$VERSION
-                echo '$test'
+                def pom = readMavenPom file: 'pom.xml'
+                echo "${pom}"
                 //bat "mvn clean package"
             }
         }
