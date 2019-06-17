@@ -21,7 +21,7 @@ pipeline {
                       echo "${VERSION}"
                 }
               
-                //bat "mvn clean package"
+                bat "mvn clean package"
             }
         }
     }  
