@@ -7,14 +7,15 @@ pipeline {
       maven "Maven-3.6.1"
     }
     environment {
-    //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
-    IMAGE = readMavenPom().getArtifactId()
-    VERSION = readMavenPom().getVersion()
+        //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
+        IMAGE = readMavenPom().getArtifactId()
+        VERSION = readMavenPom().getVersion()
     }
     stages {
         stage('Build') {
             steps {
-                echo 'IMAGE - $IMAGE and Version - $VERSION'
+                def test = $IMAGE-$VERSION
+                echo '$test'
                 //bat "mvn clean package"
             }
         }
