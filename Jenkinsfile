@@ -22,6 +22,14 @@ pipeline{
     }
 
     stages{
+        stage("Cleaning up workspace"){
+            steps{
+                deleteDir();
+            }
+        }
+    }
+
+    stages{
         stage("Checking out code from GIT repo and running mvn build"){
             steps{
                 bat "mvn clean package"
@@ -43,7 +51,7 @@ pipeline{
                     // Find built artifact underf target folder
                     def filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
                     // Printing info from the artifact found
-                    echo " ${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                     // Extracting the path from the file found
                     def artifactPath = filesByGlob[0].path;
                     // Assigning to a boolean response verfiying if the artifact name exists
@@ -51,9 +59,9 @@ pipeline{
 
                     // Checking if artifact exists before upload proccess to nexus OSS/PRO repo
                     if(artifactExists){
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version: ${pom.version}"
+                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version: ${pom.version}";
                     }else {
-                        error "*** File: ${artifactPath}, could not be found"
+                        error "*** File: ${artifactPath}, could not be found";
                     }
 
                 }
