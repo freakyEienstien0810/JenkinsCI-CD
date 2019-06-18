@@ -22,72 +22,79 @@ pipeline{
     }
 
     stages{
-        stage("Cleaning up workspace"){
-            steps{
-                deleteDir();
-            }
-        }
-    }
-stages{
-        stage("Checking out code from GIT repo and running mvn build"){
-            steps{
-                bat "mvn clean package"
-            }
-            post{
-                success{
-                    echo "======== mvn build executed successfully========"
+            stage("Cleaning up workspace"){
+                steps{
+                    deleteDir()
                 }
-                failure{
-                    echo "========mvn build execution failed please check the logs for further information========"
-                }
-            }
-        }
-        stage("Publish Artifacts to Nexus"){
-            steps{
-                script{
-                    // Read POM xml file using 'readMavenPom' step, this step us 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
-                    def pom = readMavenPom file: 'pom.xml';
-                    // Find built artifact underf target folder
-                    def filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
-                    // Printing info from the artifact found
-                    echo " ${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-                    // Extracting the path from the file found
-                    def artifactPath = filesByGlob[0].path;
-                    // Assigning to a boolean response verfiying if the artifact name exists
-                    def artifactExists = fileExists artifactPath;
-
-                    // Checking if artifact exists before upload proccess to nexus OSS/PRO repo
-                    if(artifactExists){
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version: ${pom.version}"
-                    }else {
-                        error "*** File: ${artifactPath}, could not be found"
+                post{
+                    success{
+                        echo "==== Workspace Cleaned Successfully===="
+                    }
+                    failure{
+                        echo "==== Cleaning workspace failed ===="
                     }
 
                 }
             }
-            post{
-                always{
-                    echo "====++++always++++===="
+            stage("Checking out code from GIT repo and running mvn build"){
+                steps{
+                    bat "mvn clean package"
                 }
-                success{
-                    echo "====++++A executed succesfully++++===="
+                post{
+                    success{
+                        echo "======== mvn build executed successfully========"
+                    }
+                    failure{
+                        echo "========mvn build execution failed please check the logs for further information========"
+                    }
                 }
-                failure{
-                    echo "====++++A execution failed++++===="
+            }
+            stage("Publish Artifacts to Nexus"){
+                steps{
+                    script{
+                        // Read POM xml file using 'readMavenPom' step, this step us 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
+                        def pom = readMavenPom file: 'pom.xml';
+                        // Find built artifact underf target folder
+                        def filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                        // Printing info from the artifact found
+                        echo " ${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                        // Extracting the path from the file found
+                        def artifactPath = filesByGlob[0].path;
+                        // Assigning to a boolean response verfiying if the artifact name exists
+                        def artifactExists = fileExists artifactPath;
+
+                        // Checking if artifact exists before upload proccess to nexus OSS/PRO repo
+                        if(artifactExists){
+                            echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version: ${pom.version}"
+                        }else {
+                            error "*** File: ${artifactPath}, could not be found"
+                        }
+
+                    }
                 }
-        
+                post{
+                    always{
+                        echo "====++++always++++===="
+                    }
+                    success{
+                        echo "====++++A executed succesfully++++===="
+                    }
+                    failure{
+                        echo "====++++A execution failed++++===="
+                    }
+
+                }
             }
         }
-    }
-    post{
-        always{
-            echo "========always========"
+        post{
+            always{
+                echo "========always========"
+            }
+            success{
+                echo "========pipeline executed successfully ========"
+            }
+            failure{
+                echo "========pipeline execution failed========"
+            }
         }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline execution failed========"
-        }
-    }
 }
