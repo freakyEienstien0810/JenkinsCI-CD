@@ -16,9 +16,9 @@ pipeline{
         //This can be http or https
         NEXUS_PROTOCOL = "http"
         //Where your nexus is running
-        NEXUS_URL = "192.168.30.54:8081"
+        NEXUS_URL = "192.168.30.154:8081"
         //Jenkins credential id to authneticate to Nexus OSS/PRO
-        NEXUS_CREDENTIAL_ID = "nexus-credentials-aniruhda-machine"
+        NEXUS_CREDENTIAL_ID = "nexus-anirudha-cred"
     }
 
     stages{
@@ -59,7 +59,7 @@ pipeline{
                                 groupId: pom.groupId,
                                 version: pom.version,
                                 repository: NEXUS_REPOSITORY,
-                                credentialsId: 'nexus-anirudha-cred',
+                                credentialsId: NEXUS_CREDENTIAL_ID,
                                 artifacts: [
                                     // Artifact generated such as .jar, .ear and .war files.
                                     [artifactId: pom.artifactId,
