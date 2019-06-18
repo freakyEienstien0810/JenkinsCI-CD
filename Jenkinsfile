@@ -62,10 +62,31 @@ pipeline{
                         def artifactPath = filesByGlob[0].path;
                         // Assigning to a boolean response verfiying if the artifact name exists
                         def artifactExists = fileExists artifactPath;
-
                         // Checking if artifact exists before upload proccess to nexus OSS/PRO repo
                         if(artifactExists){
                             echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version: ${pom.version}"
+                            // Upload using nexusArtifaactUploader step, this step is in: https://plugins.jenkins.io/nexus-artifact-uploader
+                            nexusArtifactUploader(
+                                nexusVersion: NEXUS_VERSION,
+                                protocol: NEXUS_PROTOCOL,
+                                nexusUrl: NEXUS_URL,
+                                groupId: pom.groupId,
+                                version: pom.version,
+                                repository: NEXUS_REPOSITORY,
+                                credentialsId: NEXUS_CREDENTIAL_ID,
+                                artifacts: [
+                                    // Artifact generated such as .jar, .ear and .war files.
+                                    [artifactId: pom.artifactId,
+                                    classifier: '',
+                                    file: artifactPath,
+                                    type: pom.packaging],
+                                    // Upload the pom.xml file for additional information for Transitive dependencies
+                                    [artifactId: pom.artifactId,
+                                    classifier: '',
+                                    file: "pom.xml",
+                                    type: "pom"]
+                                ]
+                            );                        
                         }else {
                             error "*** File: ${artifactPath}, could not be found"
                         }
@@ -73,28 +94,22 @@ pipeline{
                     }
                 }
                 post{
-                    always{
-                        echo "====++++always++++===="
-                    }
                     success{
-                        echo "====++++A executed succesfully++++===="
+                        echo "==== Upload to nexus OSS/PRO Repo successfull ===="
                     }
                     failure{
-                        echo "====++++A execution failed++++===="
+                        echo "==== Upload failed please look into the logs for more information ===="
                     }
-
+            
                 }
             }
         }
         post{
-            always{
-                echo "========always========"
-            }
             success{
-                echo "========pipeline executed successfully ========"
+                echo "======== Pipeline executed successfully ========"
             }
             failure{
-                echo "========pipeline execution failed========"
+                echo "======== Pipeline execution failed========"
             }
         }
 }
