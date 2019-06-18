@@ -19,6 +19,8 @@ pipeline{
         NEXUS_URL = "192.168.30.154:8081"
         //Jenkins credential id to authneticate to Nexus OSS/PRO
         NEXUS_CREDENTIAL_ID = "nexus-anirudha-cred"
+        //Nexus Repository targeted for artifcats upload
+        NEXUS_REPOSITORY = "dev-releases"
     }
 
     stages{
