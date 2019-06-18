@@ -22,21 +22,7 @@ pipeline{
     }
 
     stages{
-            stage("Cleaning up workspace"){
-                steps{
-                    deleteDir()
-                }
-                post{
-                    success{
-                        echo "==== Workspace Cleaned Successfully===="
-                    }
-                    failure{
-                        echo "==== Cleaning workspace failed ===="
-                    }
-
-                }
-            }
-            stage("Checking out code from GIT repo and running mvn build"){
+           stage("Checking out code from GIT repo and running mvn build"){
                 steps{
                     bat "mvn clean package"
                 }
