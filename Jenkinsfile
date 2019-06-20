@@ -119,17 +119,19 @@ pipeline{
             stage("Deployment through IBM UrbanCode Deploy"){
                 steps{
                     step([$class: 'UCDeployPublisher',
-                        siteName: 'UCD-v7.0.1',
-                        component: [
-                            $class: 'com.urbancode.jenkins.plugins.ucdeploy.VersionHelper$VersionBlock',
-                            componentName: 'NexusTest',
-                            delivery: [
-                                $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeliveryHelper$Pull',
-                            ]
-                        ]
-	                ])
+			siteName: 'UCD-v7.0.1',
+			component: [
+				$class: 'com.urbancode.jenkins.plugins.ucdeploy.VersionHelper$VersionBlock',
+				componentName: 'NexusTest',
+				delivery: [
+					$class: 'com.urbancode.jenkins.plugins.ucdeploy.DeliveryHelper$Pull',
+					pullProperties: 'version='+"${env.PACKAGE_VERSION}"
+				]
+			]
+		    ])
 
-                    sleep(10);
+                    sleep(20);
+			
                     step([$class: 'UCDeployPublisher',
                         siteName: 'UCD-v7.0.1',
                         deploy: [
