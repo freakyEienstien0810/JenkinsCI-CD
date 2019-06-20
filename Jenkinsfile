@@ -137,7 +137,7 @@ pipeline{
                             deployApp: 'DummyDeploymentLocal',
                             deployEnv: 'Dev',
                             deployProc: 'DummyDeploymentLocal',
-                            deployVersions: 'NexusTest:${env.PACKAGE_VERSION}',
+                            deployVersions: 'NexusTest:env.PACKAGE_VERSION',
                             deployOnlyChanged: false
                         ]
                     ])
