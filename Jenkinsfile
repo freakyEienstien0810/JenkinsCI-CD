@@ -57,7 +57,7 @@ pipeline{
                             echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version: ${pom.version}"
                             
                             // Setting Environment Varibles for future usages
-                            env.PACKAGE_VERSION =  "${pom.packaging}"
+                            env.PACKAGE_VERSION =  "${pom.version}"
                             env.PACKAGE_groupID = "${pom.groupId}"
                             env.PACKAGE_artifcatID = "${pom.artifactId}"
 
