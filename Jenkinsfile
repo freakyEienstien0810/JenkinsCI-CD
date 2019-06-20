@@ -129,8 +129,6 @@ pipeline{
 	                ])
 
                     sleep(10);
-                    
-                    env.PACKAGE_VERSION
                     step([$class: 'UCDeployPublisher',
                         siteName: 'UCD-v7.0.1',
                         deploy: [
