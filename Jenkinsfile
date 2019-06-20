@@ -101,7 +101,7 @@ pipeline{
             }
             stage("Update Nexus MetaData file"){
                 steps {
-                    withCredentials([usernameColonPassword(credentialsId: NEXUS_CREDENTIALS, variable: 'USERPASS')]) {
+                    withCredentials([usernameColonPassword(credentialsId: NEXUS_CREDENTIAL_ID, variable: 'USERPASS')]) {
                         bat 'curl -u %USERPASS% -X POST \"%NEXUS_PROTOCOL%://%NEXUS_URL%/service/rest/v1/tasks/%NEXUS_TASK_ID%/run\"'
                     }
     	        }    
