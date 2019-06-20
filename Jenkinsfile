@@ -104,6 +104,7 @@ pipeline{
                     withCredentials([usernameColonPassword(credentialsId: NEXUS_CREDENTIAL_ID, variable: 'USERPASS')]) {
                         bat 'curl -u %USERPASS% -X POST \"%NEXUS_PROTOCOL%://%NEXUS_URL%/service/rest/v1/tasks/%NEXUS_TASK_ID%/run\"'
                     }
+		    sleep(10);
     	        }    
                 post{
                     success{
